@@ -19,7 +19,6 @@ public:
     }
 };
 
-// Базовый класс для всех сотрудников
 class Employee {
 protected:
     std::string name;
@@ -169,3 +168,4 @@ int main() {
 
     return 0;
 }
+
