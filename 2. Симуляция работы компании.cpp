@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <string>
 
@@ -19,14 +19,27 @@ public:
     }
 };
 
-class Worker {
-private:
+// Базовый класс для всех сотрудников
+class Employee {
+protected:
     std::string name;
+
+public:
+    Employee(const std::string& n) : name(n) {}
+    virtual ~Employee() = default;
+    
+    std::string getName() const {
+        return name;
+    }
+};
+
+class Worker : public Employee {
+private:
     bool isBusy;
     char currentTask;
 
 public:
-    Worker(const std::string& n) : name(n), isBusy(false), currentTask('\0') {}
+    Worker(const std::string& n) : Employee(n), isBusy(false), currentTask('\0') {}
 
     void assignTask(char task) {
         currentTask = task;
@@ -37,21 +50,16 @@ public:
     bool getIsBusy() const {
         return isBusy;
     }
-
-    std::string getName() const {
-        return name;
-    }
 };
 
-class MiddleManager {
+class MiddleManager : public Employee {
 private:
-    std::string name;
     int managerId;
     std::vector<Worker> workers;
     SimpleRandom randomGenerator;
 
 public:
-    MiddleManager(const std::string& n, int id) : name(n), managerId(id), randomGenerator(id) {}
+    MiddleManager(const std::string& n, int id) : Employee(n), managerId(id), randomGenerator(id) {}
 
     void addWorker(const Worker& worker) {
         workers.push_back(worker);
@@ -93,13 +101,12 @@ public:
     }
 };
 
-class HeadOfCompany {
+class HeadOfCompany : public Employee {
 private:
-    std::string name;
     std::vector<MiddleManager> managers;
 
 public:
-    HeadOfCompany(const std::string& n) : name(n) {}
+    HeadOfCompany(const std::string& n) : Employee(n) {}
 
     void addManager(const MiddleManager& manager) {
         managers.push_back(manager);
