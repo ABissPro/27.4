@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 #include <cmath>
 #include <iomanip>
@@ -23,21 +23,38 @@ std::string colorToString(Color color) {
     }
 }
 
-//Граница
 struct BoundingRect {
     double x, y, width, height;
 };
 
-//Круг
-class Circle {
-private:
+class Figure {
+protected:
     double centerX, centerY;
-    double radius;
     Color color;
 
 public:
+    Figure(double x, double y, Color c) : centerX(x), centerY(y), color(c) {}
+
+    double getCenterX() const { return centerX; }
+    double getCenterY() const { return centerY; }
+    Color getColor() const { return color; }
+
+    void setCenter(double x, double y) {
+        centerX = x;
+        centerY = y;
+    }
+
+    void setColor(Color c) {
+        color = c;
+    }
+};
+
+class Circle : public Figure {
+    double radius;
+
+public:
     Circle(double x, double y, double r, Color c)
-        : centerX(x), centerY(y), radius(r), color(c) {
+        : Figure(x, y, c), radius(r) {
     }
 
     double area() const {
@@ -59,16 +76,12 @@ public:
     }
 };
 
-//Квадрат
-class Square {
-private:
-    double centerX, centerY;
+class Square : public Figure {
     double side;
-    Color color;
 
 public:
     Square(double x, double y, double s, Color c)
-        : centerX(x), centerY(y), side(s), color(c) {
+        : Figure(x, y, c), side(s) {
     }
 
     double area() const {
@@ -90,16 +103,12 @@ public:
     }
 };
 
-//Треугольник
-class EquilateralTriangle {
-private:
-    double centerX, centerY;
+class EquilateralTriangle : public Figure {
     double side;
-    Color color;
 
 public:
     EquilateralTriangle(double x, double y, double s, Color c)
-        : centerX(x), centerY(y), side(s), color(c) {
+        : Figure(x, y, c), side(s) {
     }
 
     double area() const {
@@ -122,16 +131,12 @@ public:
     }
 };
 
-//Прямоугольник
-class Rectangle {
-private:
-    double centerX, centerY;
+class Rectangle : public Figure {
     double width, height;
-    Color color;
 
 public:
     Rectangle(double x, double y, double w, double h, Color c)
-        : centerX(x), centerY(y), width(w), height(h), color(c) {
+        : Figure(x, y, c), width(w), height(h) {
     }
 
     double area() const {
